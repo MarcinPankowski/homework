@@ -27,50 +27,70 @@ export class PareserComponent implements OnInit {
       }
     );
 
-
-
   }
 
   rebuildMenu(menu: Menu): any {
-    let roles = [];
-    let pages: [Page];
-    let test = [];
+    // let roles = [];
+    // let pages: [Page];
+    let tmpMenu = [];
+    Object.entries(menu.menu).forEach(([roleId, value]) => {
+    // console.log(key);
+    // console.log(value);
+      // value.forEach(element => {
+      //   let item = tmpMenu.find(x => x.id === element.id);
+      //   if(!item) {
+      //     element.roles = [];
+      //     element.roles.push(roleId);
+      //     tmpMenu.push(element);
+      //   } else {
+      //     item.roles.push(roleId);
+      //   }
+      // })
+      tmpMenu = this.walkSubmenuesRecursive(value, roleId, tmpMenu);
+     });
 
-    console.log(menu.menu);
+     console.log(tmpMenu);
+  }
 
-    Object.entries(menu.menu).forEach(([key, value]) => {
-     // console.log(key);
-     // console.log(value);
+  walkSubmenuesRecursive(menu, roleId, tmpMenu) {
+    //let tmpMenu = [];
+    menu.forEach(element => {
+      let item = tmpMenu.find(x => x.id === element.id);
+      if(!item) {
+        element.roles = [];
+        element.roles.push(roleId);
+        tmpMenu.push(element);
+      } else {
+        item.roles.push(roleId);
+      }
 
-      value.forEach(element => {
-        let item = test.find(x => x.id === element.id);
-        if(!item) {
-          element.roles = [];
-          element.roles.push(key);
-          test.push(element);
-        } else {
-          item.roles.push(key);
-        }
+      let lastElement = tmpMenu[tmpMenu.length-1];
+//       if(lastElement.menu) {
+//         console.log('jadymy');
+//        // console.log(lastElement.menu);
+//         let _tmpMenu = [];
+//         _tmpMenu = this.walkSubmenuesRecursive(lastElement.menu, roleId, _tmpMenu);
+// // console.log(_tmpMenu);
+//         // let _tmpMenu = [];
+//         // Object.entries(lastElement.menu).forEach(([_roleId, value]) => {
+//         //   _tmpMenu = this.walkSubmenuesRecursive(value, _roleId, _tmpMenu);
+//         //  });
+//         lastElement.menu = _tmpMenu;
 
+//       }
+
+      // if(element.menu) {
+      //   console.log('jest submenu');
+      //   tmpMenu = this.walkSubmenuesRecursive(element.menu, roleId, tmpMenu);
+      // }
+
+      // if(element.menu) {
+      //   console.log('jest submenu');
+      //   tmpMenu = this.walkSubmenuesRecursive(menu, roleId, tmpMenu);
+      // }
     })
 
-
-    // for(let roleId in menu.menu) {
-    //   console.log(roleId);
-    //   console.log(menu.menu[roleId])
-    //   // pages.push( menu.menu[roleId] );
-    // }
-
-    console.log(test);
-    // Object.keys(menu.menu).forEach(function(key,index) {
-    //   console.log(key);
-    //   console.log(index);
-    //   // key: the name of the object key
-    //   // index: the ordinal position of the key within the object
-    // });
-
-
-
+    return tmpMenu;
 
   }
 
