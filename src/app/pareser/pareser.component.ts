@@ -43,29 +43,14 @@ export class PareserComponent implements OnInit {
      // console.log(value);
 
       value.forEach(element => {
-       // console.log(element);
-
-        if(!test.find(x => x.id === element.id)) {
-          if(!element.roles) {
-            console.log('in if');
-            //x.roles = [];
-            element.roles.push(key);
-          }
-
-
-
-
+        let item = test.find(x => x.id === element.id);
+        if(!item) {
+          element.roles = [];
+          element.roles.push(key);
           test.push(element);
+        } else {
+          item.roles.push(key);
         }
-
-
-        // test.push(element);
-        // console.log(test.indexOf(element));
-        // if( test.indexOf(element) !== -1) {
-        //   test.push(element);
-        // }
-
-      });
 
     })
 
